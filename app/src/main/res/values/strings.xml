@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">LabInternet</string>
     <string name="label_title">Countries</string>
-    <string name="label_loading">Loading... Please Wait</string>
+    <string name="label_capital">Capital City: </string>
+    <string name="label_region">Region: </string>
+    <string name="label_subregion">SubRegion: </string>
+    <string name="label_population">Population: </string>
 </resources>
