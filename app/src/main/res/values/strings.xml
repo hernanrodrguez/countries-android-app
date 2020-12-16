@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LabInternet</string>
+    <string name="label_title">Countries</string>
+    <string name="label_loading">Loading... Please Wait</string>
+</resources>
