@@ -54,6 +54,8 @@ public class CountryActivity extends AppCompatActivity {
             tvPopulation.setText(country.getString("population"));
             new DownloadImageTask(findViewById(R.id.flag_imageView))
                     .execute(country.getString("flag"));
+                    //.execute("https://cdn.cienradios.com/wp-content/uploads/sites/3/2020/05/Bandera-argentina.jpg");
+                    // CON LA IMAGEN EN FORMATO JPG SE CARGA CORRECTAMENTE
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
         }
