@@ -3,13 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/label_title"
         android:textSize="30sp"
         android:textAlignment="center"/>
+    <EditText
+        android:id="@+id/et_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_filter"
+        android:textSize="20dp"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.AccessNetworkConstants;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,8 +23,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private List<String> listCountries;
     private ArrayAdapter<String> adapter;
     private JSONArray json;
+    private EditText etFilter;
+    List<String> filtered;
 
     public static final String EXTRA_COUNTRY = "COUNTRY";
 
@@ -41,6 +49,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listCountries = new ArrayList<String>();
+        etFilter = findViewById(R.id.et_filter);
+        etFilter.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Editable filter = etFilter.getText();
+                if(filter.length() > 0){
+                    filtered = new ArrayList<>();
+                    for(String country : listCountries){
+                        if(country.toLowerCase().contains(filter.toString().toLowerCase()))
+                            filtered.add(country);
+                    }
+                    adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, filtered);
+                } else {
+                    adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, listCountries);
+                }
+                lvCountries.setAdapter(adapter);
+            }
+            @Override public void afterTextChanged(Editable s){}
+        });
         lvCountries = findViewById(R.id.lvCountries);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listCountries);
         lvCountries.setAdapter(adapter);
@@ -51,11 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         boolean flag = true;
+        int index = 0;
         JSONObject country = new JSONObject();
         Intent intent = new Intent(this, CountryActivity.class);
 
+        for(int i=0; i < listCountries.size(); i++){
+            if(listCountries.get(i) == filtered.get(position))
+                index = i;
+        }
+
         try {
-            country = json.getJSONObject(position);
+            country = json.getJSONObject(index);
         }catch (Exception e){
             flag = false;
             Toast.makeText(MainActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
@@ -112,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     listCountries.add(country_name);
                     Log.println(Log.DEBUG, null, country_name);
                 }
+                filtered = listCountries;
                 adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, listCountries);
                 lvCountries.setAdapter(adapter);
             }catch (Exception e){
