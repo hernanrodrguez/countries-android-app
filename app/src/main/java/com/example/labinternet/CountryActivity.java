@@ -2,20 +2,27 @@ package com.example.labinternet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
+
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CountryActivity extends AppCompatActivity {
@@ -67,7 +74,7 @@ public class CountryActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<String, Void, Drawable> {
 
         ImageView myImageView;
 
@@ -85,23 +92,33 @@ public class CountryActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Bitmap doInBackground(String... urls) {
-            String url_display = urls[0];
-            Bitmap mIcon11 = null;
+        protected Drawable doInBackground(String... urls) {
             try {
-                InputStream in = new URL(url_display).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
+                final URL url = new URL(urls[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = urlConnection.getInputStream();
+                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
+                Drawable drawable = svg.createPictureDrawable();
+                return drawable;
+            }catch (Exception e){
+                Log.println(Log.ERROR, "CountryActivity", e.getMessage());
             }
-            return mIcon11;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Bitmap result) {
-            myImageView.setImageBitmap(result);
+        protected void onPostExecute(Drawable result) {
+            updateImageView(result);
             dialog.cancel();
+        }
+
+        @SuppressLint("NewApi")
+        private void updateImageView(Drawable drawable){
+            if(drawable != null){
+                // Try using your library and adding this layer type before switching your SVG parsing
+                myImageView.setLayerType(View.LAYER_TYPE_NONE, null);
+                myImageView.setImageDrawable(drawable);
+            }
         }
     }
 }
