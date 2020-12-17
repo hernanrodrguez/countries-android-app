@@ -116,7 +116,7 @@ public class CountryActivity extends AppCompatActivity {
         private void updateImageView(Drawable drawable){
             if(drawable != null){
                 // Try using your library and adding this layer type before switching your SVG parsing
-                myImageView.setLayerType(View.LAYER_TYPE_NONE, null);
+                myImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 myImageView.setImageDrawable(drawable);
             }
         }

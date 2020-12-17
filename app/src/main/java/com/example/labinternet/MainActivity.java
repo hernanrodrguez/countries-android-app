@@ -3,7 +3,10 @@ package com.example.labinternet;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.AccessNetworkConstants;
@@ -74,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
         lvCountries.setAdapter(adapter);
         lvCountries.setOnItemClickListener(this::onItemClick);
         dialog = new ProgressDialog(this);
-        new GetCountries().execute("https://restcountries.eu/rest/v2/all");
+        if(ConnectionAvailable())
+            new GetCountries().execute("https://restcountries.eu/rest/v2/all");
+        else
+            Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_LONG).show();
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,6 +104,17 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_COUNTRY, country.toString());
             startActivity(intent);
         }
+    }
+
+    private boolean ConnectionAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            return true;
+        }
+        else
+            return false;
     }
 
     public class GetCountries extends AsyncTask<String, Void, String> {
