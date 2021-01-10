@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ahmadrosid.svgloader.SvgLoader;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
@@ -40,6 +41,12 @@ public class CountryActivity extends AppCompatActivity {
         completeCountryInfo(data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SvgLoader.pluck().close();
+    }
+
     private void completeCountryInfo(String data) {
         JSONObject country = new JSONObject();
         try{
@@ -59,10 +66,19 @@ public class CountryActivity extends AppCompatActivity {
             tvRegion.setText(country.getString("region"));
             tvSubregion.setText(country.getString("subregion"));
             tvPopulation.setText(country.getString("population"));
+
+            SvgLoader.pluck()
+                    .with(this)
+                    .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
+                    .load(country.getString("flag"), image);
+
+            /*
             new DownloadImageTask(findViewById(R.id.flag_imageView))
                     .execute(country.getString("flag"));
                     //.execute("https://cdn.cienradios.com/wp-content/uploads/sites/3/2020/05/Bandera-argentina.jpg");
                     // CON LA IMAGEN EN FORMATO JPG SE CARGA CORRECTAMENTE
+
+             */
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
         }
