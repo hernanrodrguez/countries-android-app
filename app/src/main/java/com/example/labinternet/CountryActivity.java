@@ -55,30 +55,27 @@ public class CountryActivity extends AppCompatActivity {
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
         }
         TextView tvCountry = findViewById(R.id.tv_country_name);
+        TextView tvNative = findViewById(R.id.tv_native);
         TextView tvCapital = findViewById(R.id.tv_capital);
         TextView tvRegion = findViewById(R.id.tv_region);
         TextView tvSubregion = findViewById(R.id.tv_subregion);
         TextView tvPopulation = findViewById(R.id.tv_population);
+        TextView tvDemonym = findViewById(R.id.tv_demonym);
         ImageView image = findViewById(R.id.flag_imageView);
         try{
             tvCountry.setText(country.getString("name"));
+            tvNative.setText(country.getString("nativeName"));
             tvCapital.setText(country.getString("capital"));
             tvRegion.setText(country.getString("region"));
             tvSubregion.setText(country.getString("subregion"));
             tvPopulation.setText(country.getString("population"));
+            tvDemonym.setText(country.getString("demonym"));
 
             SvgLoader.pluck()
                     .with(this)
                     .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
                     .load(country.getString("flag"), image);
 
-            /*
-            new DownloadImageTask(findViewById(R.id.flag_imageView))
-                    .execute(country.getString("flag"));
-                    //.execute("https://cdn.cienradios.com/wp-content/uploads/sites/3/2020/05/Bandera-argentina.jpg");
-                    // CON LA IMAGEN EN FORMATO JPG SE CARGA CORRECTAMENTE
-
-             */
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
         }
@@ -88,53 +85,5 @@ public class CountryActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Drawable> {
-
-        ImageView myImageView;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.myImageView = bmImage;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading... Please Wait");
-            dialog.setIndeterminate(true);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-        }
-
-        @Override
-        protected Drawable doInBackground(String... urls) {
-            try {
-                final URL url = new URL(urls[0]);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = urlConnection.getInputStream();
-                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
-                Drawable drawable = svg.createPictureDrawable();
-                return drawable;
-            }catch (Exception e){
-                Log.println(Log.ERROR, "CountryActivity", e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable result) {
-            updateImageView(result);
-            dialog.cancel();
-        }
-
-        @SuppressLint("NewApi")
-        private void updateImageView(Drawable drawable){
-            if(drawable != null){
-                // Try using your library and adding this layer type before switching your SVG parsing
-                myImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                myImageView.setImageDrawable(drawable);
-            }
-        }
     }
 }
