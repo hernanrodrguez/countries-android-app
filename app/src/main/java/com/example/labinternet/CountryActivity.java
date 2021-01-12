@@ -29,6 +29,7 @@ import java.net.URL;
 public class CountryActivity extends AppCompatActivity {
 
     private ProgressDialog dialog;
+    private Country countryClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class CountryActivity extends AppCompatActivity {
     private void completeCountryInfo(String data) {
         JSONObject country = new JSONObject();
         try{
+            countryClass = new Country(new JSONObject(data));
             country = new JSONObject(data);
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
