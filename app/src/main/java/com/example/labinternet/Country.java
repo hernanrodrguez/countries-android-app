@@ -15,7 +15,9 @@ public class Country {
     private String NativeName;
     private String FlagLink;
 
-    public Country (JSONObject json) {
+    public Country(){ }
+
+    public void setValues (JSONObject json) {
         try{
             this.Name = json.getString("name");
             this.Capital = json.getString("capital");
@@ -36,6 +38,8 @@ public class Country {
             this.FlagLink = "";
         }
     }
+
+    public String getName(){ return this.Name; }
 
     public ArrayList<String> getProperties(){
         ArrayList<String> ret = new ArrayList<String>();

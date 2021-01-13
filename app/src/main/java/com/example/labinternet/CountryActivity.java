@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 public class CountryActivity extends AppCompatActivity {
 
     private ProgressDialog dialog;
-    private Country countryClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +56,16 @@ public class CountryActivity extends AppCompatActivity {
     }
 
     private void completeCountryInfo(String data) {
-        JSONObject country = new JSONObject();
+        Country country = new Country();
         try{
-            countryClass = new Country(new JSONObject(data));
-            country = new JSONObject(data);
+            country.setValues(new JSONObject(data));
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
         }
-        TextView tvCountry = findViewById(R.id.tv_country_name);
-        TextView tvNative = findViewById(R.id.tv_native);
-        TextView tvCapital = findViewById(R.id.tv_capital);
-        TextView tvRegion = findViewById(R.id.tv_region);
-        TextView tvSubregion = findViewById(R.id.tv_subregion);
-        TextView tvPopulation = findViewById(R.id.tv_population);
-        TextView tvDemonym = findViewById(R.id.tv_demonym);
-        ImageView image = findViewById(R.id.flag_imageView);
 
-        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //View v = inflater.inflate(R.layout.activity_country, null);
+        TextView tvCountry = findViewById(R.id.tv_country_name);
+        tvCountry.setText(country.getName());
+        setSVGImage(country.getFlagLink(), findViewById(R.id.flag_imageView));
 
         ScrollView sv = findViewById(R.id.scrollView);
 
@@ -85,44 +77,36 @@ public class CountryActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT)
         );
 
-        ArrayList<String> props = countryClass.getProperties();
-        for(String prop : props){
+        ArrayList<String> props = country.getProperties();
+        String[] labels = getResources().getStringArray(R.array.country_props);
+
+        int i = 0;
+        for(String label : labels) {
             TextView tv = new TextView(this);
             tv.setLayoutParams(
                     new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT)
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT)
             );
-            tv.setText(prop);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            String show_text = label + props.get(i);
+            tv.setText(show_text);
             ll.addView(tv);
-            //Toast.makeText(CountryActivity.this, prop, Toast.LENGTH_SHORT).show();
+            i++;
         }
         sv.addView(ll);
-
-        //setContentView(v);
-        /*
-        try{
-            tvCountry.setText(country.getString("name"));
-            tvNative.setText(country.getString("nativeName"));
-            tvCapital.setText(country.getString("capital"));
-            tvRegion.setText(country.getString("region"));
-            tvSubregion.setText(country.getString("subregion"));
-            tvPopulation.setText(country.getString("population"));
-            tvDemonym.setText(country.getString("demonym"));
-
-            SvgLoader.pluck()
-                    .with(this)
-                    .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
-                    .load(countryClass.getFlagLink(), image);
-
-        } catch (Exception e){
-            Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void setSVGImage(String link, ImageView image){
+        SvgLoader.pluck()
+                .with(this)
+                .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
+                .load(link, image);
     }
 }

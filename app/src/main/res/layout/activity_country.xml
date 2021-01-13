@@ -5,11 +5,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
-
     <TextView
         android:id="@+id/tv_country_name"
         android:layout_width="wrap_content"
@@ -25,112 +20,11 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_native"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_capital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_capital"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_region"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_region"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_subregion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_subregion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_population"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_population"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_demonym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-        <Space
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_demonym"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"/>
-    </LinearLayout>
 
 </LinearLayout>
