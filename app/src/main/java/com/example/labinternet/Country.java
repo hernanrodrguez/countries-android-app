@@ -46,9 +46,12 @@ public class Country {
         ret.add(String.valueOf(this.Population));
         ret.add(this.Demonym);
         ret.add(this.NativeName);
-        ret.add(this.FlagLink);
 
         return ret;
+    }
+
+    public String getFlagLink(){
+        return this.FlagLink;
     }
 
 }

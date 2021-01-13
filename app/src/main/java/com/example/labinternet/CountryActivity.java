@@ -4,15 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +31,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class CountryActivity extends AppCompatActivity {
 
@@ -64,6 +71,36 @@ public class CountryActivity extends AppCompatActivity {
         TextView tvPopulation = findViewById(R.id.tv_population);
         TextView tvDemonym = findViewById(R.id.tv_demonym);
         ImageView image = findViewById(R.id.flag_imageView);
+
+        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //View v = inflater.inflate(R.layout.activity_country, null);
+
+        ScrollView sv = findViewById(R.id.scrollView);
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT)
+        );
+
+        ArrayList<String> props = countryClass.getProperties();
+        for(String prop : props){
+            TextView tv = new TextView(this);
+            tv.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT)
+            );
+            tv.setText(prop);
+            ll.addView(tv);
+            //Toast.makeText(CountryActivity.this, prop, Toast.LENGTH_SHORT).show();
+        }
+        sv.addView(ll);
+
+        //setContentView(v);
+        /*
         try{
             tvCountry.setText(country.getString("name"));
             tvNative.setText(country.getString("nativeName"));
@@ -76,11 +113,11 @@ public class CountryActivity extends AppCompatActivity {
             SvgLoader.pluck()
                     .with(this)
                     .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
-                    .load(country.getString("flag"), image);
+                    .load(countryClass.getFlagLink(), image);
 
         } catch (Exception e){
             Toast.makeText(CountryActivity.this, "There was a problem", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     @Override
