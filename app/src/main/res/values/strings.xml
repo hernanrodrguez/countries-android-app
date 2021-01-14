@@ -2,12 +2,6 @@
     <string name="app_name">Countries</string>
     <string name="hint_filter">Filter Countries...</string>
     <string name="label_title">Countries</string>
-    <string name="label_native">Native Name: </string>
-    <string name="label_capital">Capital City: %1$s</string>
-    <string name="label_region">Region: </string>
-    <string name="label_subregion">SubRegion: </string>
-    <string name="label_population">Population: </string>
-    <string name="label_demonym">Demonym: </string>
     <string-array name="country_props">
         <item>Native Name:  </item>
         <item>Capital City: </item>

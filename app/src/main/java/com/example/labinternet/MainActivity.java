@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                     country = json.getJSONObject(i);
                     String country_name = country.getString("name");
                     listCountries.add(country_name);
-                    Log.println(Log.DEBUG, null, country_name);
                 }
                 filtered = listCountries;
                 adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, listCountries);
